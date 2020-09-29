@@ -1,8 +1,15 @@
 import React from 'react'
+import Header from './Header'
+import Navbar from './Navbar'
+import Main from './Main'
 
 function App () {
   return(
-      <h1>My React App</h1>
+      <div>
+        <Header />
+        <Navbar />
+        <Main />
+      </div>
   )
 }
 

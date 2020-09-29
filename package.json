@@ -1,9 +1,10 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "",
+  "description": "As an early-stage programmer excited about React, I have found the installation process confusing and complex. Although the create-react-app package has been useful, I often encountered errors with random lines in the configuration, and the entire thing felt bloated when all I wanted was to make something small and simple to practice my newfound skills. As a result, I created this boilerplate for myself, and decided to share it with the world in the hopes that other React students will also find it useful.",
   "main": "./src/script.js",
   "dependencies": {
+    "bootstrap": "^4.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "unsplash-js": "^6.0.0"
@@ -12,8 +13,8 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-react": "^6.24.1",
-    "html-webpack-plugin": "^4.3.0",
-    "webpack": "^4.44.1",
+    "html-webpack-plugin": "^4.5.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   },
@@ -24,5 +25,13 @@
     "start": "webpack-dev-server"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AJMcDee/ReactBoilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AJMcDee/ReactBoilerplate/issues"
+  },
+  "homepage": "https://github.com/AJMcDee/ReactBoilerplate#readme"
 }
