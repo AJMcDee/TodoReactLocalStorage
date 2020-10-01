@@ -41,12 +41,16 @@ class Main extends Component {
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   handleEdit(idNum) {
-    let currentDiv = document.getElementById(idNum);
-    console.log("Edit");
     sampleData[idNum].inEditMode = true;
+    this.setState({ sampleData });
+  }
+
+  handleSave(idNum) {
+    sampleData[idNum].inEditMode = false;
     this.setState({ sampleData });
   }
 
@@ -76,6 +80,7 @@ class Main extends Component {
                 title={item.title}
                 due={item.due}
                 description={item.description}
+                handleSave={this.handleSave}
                 handleDelete={this.handleDelete}
               />
             );

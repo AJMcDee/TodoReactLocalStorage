@@ -11,7 +11,11 @@ class TodoCardEdit extends React.Component {
           <input className="card-title" placeholder={this.props.title}></input>
           <h6 className="card-subtitle mb-2 text-muted">{this.props.due}</h6>
           <p className="card-text">{this.props.description}</p>
-          <a href="#" className="btn btn-success mr-2">
+          <a
+            href="#"
+            className="btn btn-success mr-2"
+            onClick={() => this.props.handleSave(this.props.id)}
+          >
             Save
           </a>
           <a
