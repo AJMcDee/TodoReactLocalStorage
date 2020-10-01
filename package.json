@@ -7,11 +7,12 @@
     "bootstrap": "^4.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "unsplash-js": "^6.0.0"
+    "unsplash-js": "^6.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "html-webpack-plugin": "^4.5.0",
     "webpack": "^4.44.2",

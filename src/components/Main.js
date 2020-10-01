@@ -62,10 +62,20 @@ class Main extends Component {
     this.setState({ sampleData });
   }
 
-  handleSave(idNum) {
-    sampleData[idNum].inEditMode = false;
-    this.setState({ sampleData });
+  handleSave(idNum, title, due, description) {
+    let stateCopy = [...this.state.sampleData];
+    stateCopy[idNum] = {
+      ...stateCopy[idNum],
+      title: [title],
+      description: [description],
+      due: [due]
+    };
+    this.setState({ sampleData: stateCopy });
+
     console.log(this.state.sampleData);
+    // sampleData[idNum].inEditMode = false;
+    // this.setState({ sampleData });
+    // console.log(this.state.sampleData);
   }
 
   handleDelete(idNum) {

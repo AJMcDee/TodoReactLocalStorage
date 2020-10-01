@@ -44,7 +44,14 @@ class TodoCardEdit extends React.Component {
           <a
             href="#"
             className="btn btn-success mr-2"
-            onClick={() => this.props.handleSave(this.props.id)}
+            onClick={() =>
+              this.props.handleSave(
+                this.props.id,
+                this.state.title,
+                this.state.due,
+                this.state.description
+              )
+            }
           >
             Save
           </a>
