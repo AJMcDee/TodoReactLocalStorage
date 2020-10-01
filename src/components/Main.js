@@ -42,6 +42,19 @@ class Main extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
+  }
+
+  handleValueChange(idNum, name, value) {
+    console.log("so far so good");
+    console.log();
+
+    sampleData[idNum][name] = value;
+    console.log(sampleData);
+    this.setState({ sampleData: sampleData[idNum][name] });
+    // this.setState({ sampleData });
+    console.log(this.state.sampleData);
+    console.log(idNum, name, value);
   }
 
   handleEdit(idNum) {
@@ -52,18 +65,16 @@ class Main extends Component {
   handleSave(idNum) {
     sampleData[idNum].inEditMode = false;
     this.setState({ sampleData });
+    console.log(this.state.sampleData);
   }
 
   handleDelete(idNum) {
-    console.log("It does something " + idNum);
     function matchesIdNum(element) {
       return element.id == idNum;
     }
 
     let todoIndex = sampleData.findIndex(matchesIdNum);
-    console.log(todoIndex);
     sampleData.splice(todoIndex, 1);
-    console.log(sampleData);
     this.setState({ sampleData });
   }
 
@@ -82,6 +93,7 @@ class Main extends Component {
                 description={item.description}
                 handleSave={this.handleSave}
                 handleDelete={this.handleDelete}
+                handleValueChange={this.handleValueChange}
               />
             );
           } else {
