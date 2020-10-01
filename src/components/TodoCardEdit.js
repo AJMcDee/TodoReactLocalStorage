@@ -1,6 +1,6 @@
 import React from "react";
 
-class TodoCard extends React.Component {
+class TodoCardEdit extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -8,11 +8,11 @@ class TodoCard extends React.Component {
     return (
       <div className="card col-md-3 m-1" id={this.props.id}>
         <div className="card-body">
-          <h5 className="card-title">{this.props.title}</h5>
+          <input className="card-title" placeholder={this.props.title}></input>
           <h6 className="card-subtitle mb-2 text-muted">{this.props.due}</h6>
           <p className="card-text">{this.props.description}</p>
-          <a href="#" className="btn btn-primary mr-2" onClick={() => this.props.handleEdit(this.props.id)}>
-            Edit
+          <a href="#" className="btn btn-success mr-2">
+            Save
           </a>
           <a
             href="#"
@@ -27,4 +27,4 @@ class TodoCard extends React.Component {
   }
 }
 
-export default TodoCard;
+export default TodoCardEdit;
