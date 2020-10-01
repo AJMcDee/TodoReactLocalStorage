@@ -2,7 +2,7 @@ import React from "react";
 
 function Header() {
   return (
-    <div class="jumbotron">
+    <div className="jumbotron">
       <h1>Todo List Application</h1>
     </div>
   );

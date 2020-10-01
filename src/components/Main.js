@@ -1,6 +1,5 @@
-import React from "react";
+import React, { Component } from "react";
 import TodoCard from "./TodoCard";
-
 let sampleData = [
   {
     id: 231540,
@@ -28,20 +27,45 @@ let sampleData = [
   },
 ];
 
-function Main() {
-  return (
-    <div class="row d-flex justify-content-around">
-      {sampleData.map((item) => {
-        return (
-          <TodoCard
-            title={item.title}
-            due={item.due}
-            description={item.description}
-          />
-        );
-      })}
-    </div>
-  );
+class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sampleData: sampleData,
+    };
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
+  handleDelete(idNum) {
+    console.log("It does something " + idNum);
+    function matchesIdNum(element) {
+      return element.id == idNum;
+    }
+
+    let todoIndex = sampleData.findIndex(matchesIdNum);
+    console.log(todoIndex);
+    sampleData.splice(todoIndex, 1);
+    console.log(sampleData);
+    this.setState({ sampleData });
+  }
+
+  render() {
+    return (
+      <div className="row d-flex justify-content-around">
+        {this.state.sampleData.map((item) => {
+          return (
+            <TodoCard
+              id={item.id}
+              title={item.title}
+              due={item.due}
+              description={item.description}
+              handleDelete={this.handleDelete}
+            />
+          );
+        })}
+      </div>
+    );
+  }
 }
 
 export default Main;
