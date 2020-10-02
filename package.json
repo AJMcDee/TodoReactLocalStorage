@@ -34,5 +34,6 @@
   "bugs": {
     "url": "https://github.com/AJMcDee/ReactBoilerplate/issues"
   },
+  "plugins": ["transform-object-rest-spread"],
   "homepage": "https://github.com/AJMcDee/ReactBoilerplate#readme"
 }

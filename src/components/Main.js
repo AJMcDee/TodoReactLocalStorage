@@ -1,97 +1,109 @@
-import React, { Component } from "react";
-import TodoCard from "./TodoCard";
-import TodoCardEdit from "./TodoCardEdit";
+import React, { Component } from 'react'
+import TodoCard from './TodoCard'
+import TodoCardEdit from './TodoCardEdit'
 
 let sampleData = [
   {
     id: 0,
-    title: "Test 01",
+    title: 'Test 01',
     description: "Don't forget to take out the trash every Thursday",
-    due: "2020-09-24",
-    inEditMode: false,
+    due: '2020-09-24',
+    inEditMode: false
   },
   {
     id: 1,
-    title: "Test 02",
-    description: "Call the school to arrange music lessons",
-    due: "2020-10-23",
-    inEditMode: false,
+    title: 'Test 02',
+    description: 'Call the school to arrange music lessons',
+    due: '2020-10-23',
+    inEditMode: false
   },
   {
     id: 2,
-    title: "Test 03",
-    description: "Remind people about the party",
-    due: "2021-03-23",
-    inEditMode: false,
+    title: 'Test 03',
+    description: 'Remind people about the party',
+    due: '2021-03-23',
+    inEditMode: false
   },
   {
     id: 3,
-    title: "Test 04",
-    description: "Arrange for dogsitter",
-    due: "2020-11-29",
-    inEditMode: false,
-  },
-];
+    title: 'Test 04',
+    description: 'Arrange for dogsitter',
+    due: '2020-11-29',
+    inEditMode: false
+  }
+]
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
-      sampleData: sampleData,
-    };
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleValueChange = this.handleValueChange.bind(this);
+      sampleData: sampleData
+    }
+    this.handleDelete = this.handleDelete.bind(this)
+    this.handleEdit = this.handleEdit.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+    this.handleValueChange = this.handleValueChange.bind(this)
   }
 
-  handleValueChange(idNum, name, value) {
-    console.log("so far so good");
-    console.log();
+  handleValueChange (idNum, name, value) {
+    console.log('so far so good')
+    console.log()
 
-    sampleData[idNum][name] = value;
-    console.log(sampleData);
-    this.setState({ sampleData: sampleData[idNum][name] });
+    sampleData[idNum][name] = value
+    console.log(sampleData)
+    this.setState({ sampleData: sampleData[idNum][name] })
     // this.setState({ sampleData });
-    console.log(this.state.sampleData);
-    console.log(idNum, name, value);
+    console.log(this.state.sampleData)
+    console.log(idNum, name, value)
   }
 
-  handleEdit(idNum) {
-    sampleData[idNum].inEditMode = true;
-    this.setState({ sampleData });
+  handleEdit (idNum) {
+    sampleData[idNum].inEditMode = true
+    this.setState({ sampleData })
   }
 
-  handleSave(idNum, title, due, description) {
-    let stateCopy = [...this.state.sampleData];
-    stateCopy[idNum] = {
-      ...stateCopy[idNum],
-      title: [title],
-      description: [description],
-      due: [due]
-    };
-    this.setState({ sampleData: stateCopy });
+  handleSave (idNum, title, due, description) {
+    // let stateCopy = [...this.state.sampleData];
+    // stateCopy[idNum] = {
+    //   ...stateCopy[idNum],
+    //   title: [title],
+    //   description: [description],
+    //   due: [due]
+    // };
+    // this.setState({ sampleData: [stateCopy] });
 
-    console.log(this.state.sampleData);
+    this.setState(prevState => ({
+      sampleData: prevState.sampleData.map(obj =>
+        obj.id === idNum
+          ? Object.assign(obj, {
+              title: title,
+              due: due,
+              description: description
+            })
+          : obj
+      )
+    }))
+
+    console.log(this.state.sampleData)
     // sampleData[idNum].inEditMode = false;
     // this.setState({ sampleData });
     // console.log(this.state.sampleData);
   }
 
-  handleDelete(idNum) {
-    function matchesIdNum(element) {
-      return element.id == idNum;
+  handleDelete (idNum) {
+    function matchesIdNum (element) {
+      return element.id == idNum
     }
 
-    let todoIndex = sampleData.findIndex(matchesIdNum);
-    sampleData.splice(todoIndex, 1);
-    this.setState({ sampleData });
+    let todoIndex = sampleData.findIndex(matchesIdNum)
+    sampleData.splice(todoIndex, 1)
+    this.setState({ sampleData })
   }
 
-  render() {
+  render () {
     return (
-      <div className="row d-flex justify-content-around">
-        {this.state.sampleData.map((item) => {
+      <div className='row d-flex justify-content-around'>
+        {this.state.sampleData.map(item => {
           if (item.inEditMode) {
             return (
               <TodoCardEdit
@@ -105,7 +117,7 @@ class Main extends Component {
                 handleDelete={this.handleDelete}
                 handleValueChange={this.handleValueChange}
               />
-            );
+            )
           } else {
             return (
               <TodoCard
@@ -118,12 +130,12 @@ class Main extends Component {
                 handleEdit={this.handleEdit}
                 handleDelete={this.handleDelete}
               />
-            );
+            )
           }
         })}
       </div>
-    );
+    )
   }
 }
 
-export default Main;
+export default Main
