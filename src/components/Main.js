@@ -57,25 +57,24 @@ class Main extends Component {
     console.log(idNum, name, value)
   }
 
-  handleEdit (idNum) {
-    sampleData[idNum].inEditMode = true
-    this.setState({ sampleData })
-  }
-
-  handleSave (idNum, title, due, description) {
-    // let stateCopy = [...this.state.sampleData];
-    // stateCopy[idNum] = {
-    //   ...stateCopy[idNum],
-    //   title: [title],
-    //   description: [description],
-    //   due: [due]
-    // };
-    // this.setState({ sampleData: [stateCopy] });
-
+  handleEdit(idNum) {
     this.setState(prevState => ({
       sampleData: prevState.sampleData.map(obj =>
         obj.id === idNum
           ? Object.assign(obj, {
+            inEditMode: true
+          })
+          : obj
+      )
+    }))
+  }
+
+  handleSave (idNum, title, due, description) {
+    this.setState(prevState => ({
+      sampleData: prevState.sampleData.map(obj =>
+        obj.id === idNum
+          ? Object.assign(obj, {
+              inEditMode: false,
               title: title,
               due: due,
               description: description
@@ -85,9 +84,6 @@ class Main extends Component {
     }))
 
     console.log(this.state.sampleData)
-    // sampleData[idNum].inEditMode = false;
-    // this.setState({ sampleData });
-    // console.log(this.state.sampleData);
   }
 
   handleDelete (idNum) {
