@@ -16,7 +16,7 @@ class TodoCard extends React.Component {
           </a>
           <a
             href="#"
-            className="btn btn-danger"
+            className="btn btn-danger" 
             onClick={() => this.props.handleDelete(this.props.id)}
           >
             Delete

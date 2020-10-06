@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import TodoCard from './TodoCard'
 import TodoCardEdit from './TodoCardEdit'
+import Navbar from './Navbar'
 
-let sampleData = [
+let todoDataArray = [
   {
     id: 0,
     title: 'Test 01',
@@ -27,63 +28,60 @@ let sampleData = [
   {
     id: 3,
     title: 'Test 04',
-    description: 'Arrange for dogsitter',
+    description: 'Arrange for dogsittter',
     due: '2020-11-29',
     inEditMode: false
   }
 ]
 
+
 class Main extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      sampleData: sampleData
+      todoData: JSON.parse(localStorage.getItem('todoDataString'))
     }
     this.handleDelete = this.handleDelete.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
     this.handleSave = this.handleSave.bind(this)
-    this.handleValueChange = this.handleValueChange.bind(this)
+    this.handleNewTodo = this.handleNewTodo.bind(this)
   }
 
-  handleValueChange (idNum, name, value) {
-    console.log('so far so good')
-    console.log()
-
-    sampleData[idNum][name] = value
-    console.log(sampleData)
-    this.setState({ sampleData: sampleData[idNum][name] })
-    // this.setState({ sampleData });
-    console.log(this.state.sampleData)
-    console.log(idNum, name, value)
+  updateLocalStorage () {
+    const newState = JSON.stringify(this.state.todoData)
+    localStorage.setItem('todoDataString', newState)
   }
 
-  handleEdit(idNum) {
+  handleEdit (idNum) {
     this.setState(prevState => ({
-      sampleData: prevState.sampleData.map(obj =>
+      todoData: prevState.todoData.map(obj =>
         obj.id === idNum
           ? Object.assign(obj, {
-            inEditMode: true
-          })
-          : obj
-      )
-    }))
-  }
-
-  handleSave (idNum, title, due, description) {
-    this.setState(prevState => ({
-      sampleData: prevState.sampleData.map(obj =>
-        obj.id === idNum
-          ? Object.assign(obj, {
-              inEditMode: false,
-              title: title,
-              due: due,
-              description: description
+              inEditMode: true
             })
           : obj
       )
     }))
+  }
 
-    console.log(this.state.sampleData)
+
+
+  handleSave (idNum, title, due, description) {
+    this.setState(
+      prevState => ({
+        todoData: prevState.todoData.map(obj =>
+          obj.id === idNum
+            ? Object.assign(obj, {
+                inEditMode: false,
+                title: title,
+                due: due,
+                description: description
+              })
+            : obj
+        )
+      }),
+      this.updateLocalStorage
+    )
   }
 
   handleDelete (idNum) {
@@ -91,44 +89,62 @@ class Main extends Component {
       return element.id == idNum
     }
 
-    let todoIndex = sampleData.findIndex(matchesIdNum)
-    sampleData.splice(todoIndex, 1)
-    this.setState({ sampleData })
+    let todoIndex = todoData.findIndex(matchesIdNum)
+    todoData.splice(todoIndex, 1)
+    this.setState({ todoData })
+  }
+
+  handleNewTodo () {
+    console.log('It works')
+    const newID = this.state.todoData.length
+    const emptyTodo = {
+      id: newID,
+      title: '',
+      description: '',
+      due: '',
+      inEditMode: true
+    }
+    todoData.push(emptyTodo)
+    this.setState(prevState => ({
+      todoData: todoData
+    }))
   }
 
   render () {
     return (
-      <div className='row d-flex justify-content-around'>
-        {this.state.sampleData.map(item => {
-          if (item.inEditMode) {
-            return (
-              <TodoCardEdit
-                key={item.id}
-                inEditMode={item.inEditMode}
-                id={item.id}
-                title={item.title}
-                due={item.due}
-                description={item.description}
-                handleSave={this.handleSave}
-                handleDelete={this.handleDelete}
-                handleValueChange={this.handleValueChange}
-              />
-            )
-          } else {
-            return (
-              <TodoCard
-                key={item.id}
-                inEditMode={item.inEditMode}
-                id={item.id}
-                title={item.title}
-                due={item.due}
-                description={item.description}
-                handleEdit={this.handleEdit}
-                handleDelete={this.handleDelete}
-              />
-            )
-          }
-        })}
+      <div className='container d-flex flex-column align-items-center'>
+        <Navbar handleClick={this.handleNewTodo} />
+        <div className='row d-flex justify-content-around'>
+          {this.state.todoData.map(item => {
+            if (item.inEditMode) {
+              return (
+                <TodoCardEdit
+                  key={item.id}
+                  inEditMode={item.inEditMode}
+                  id={item.id}
+                  title={item.title}
+                  due={item.due}
+                  description={item.description}
+                  handleSave={this.handleSave}
+                  handleDelete={this.handleDelete}
+                />
+              )
+            } else {
+              return (
+                <TodoCard
+                  key={item.id}
+                  inEditMode={item.inEditMode}
+                  id={item.id}
+                  title={item.title}
+                  due={item.due}
+                  description={item.description}
+                  handleEdit={this.handleEdit}
+                  handleDelete={this.handleDelete}
+                />
+              )
+            }
+          })}
+        </div>
       </div>
     )
   }
