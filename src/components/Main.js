@@ -7,7 +7,7 @@ let todoDataArray = [
   {
     id: 0,
     title: 'Test 01',
-    description: "Don't forget to take out the trash every Thursday",
+    description: "Don't forget to  take out the trash every Thursday",
     due: '2020-09-24',
     inEditMode: false
   },
@@ -28,12 +28,17 @@ let todoDataArray = [
   {
     id: 3,
     title: 'Test 04',
-    description: 'Arrange for dogsittter',
+    description: 'Arrangse for dogsittter',
     due: '2020-11-29',
     inEditMode: false
-  }
+  },
+  null
 ]
 
+localStorage.clear
+localStorage.setItem('todoDataString', JSON.stringify(todoDataArray))
+
+console.log(localStorage.getItem('todoDataString'))
 
 class Main extends Component {
   constructor (props) {
@@ -48,54 +53,38 @@ class Main extends Component {
   }
 
   updateLocalStorage () {
+    console.log(this.state.todoData)
     const newState = JSON.stringify(this.state.todoData)
     localStorage.setItem('todoDataString', newState)
   }
 
   handleEdit (idNum) {
-    this.setState(prevState => ({
-      todoData: prevState.todoData.map(obj =>
-        obj.id === idNum
-          ? Object.assign(obj, {
-              inEditMode: true
-            })
-          : obj
-      )
-    }))
+    let currentTodoData = this.state.todoData
+    currentTodoData[idNum].inEditMode = true
+    this.setState({ todoData: currentTodoData })
   }
 
-
-
   handleSave (idNum, title, due, description) {
-    this.setState(
-      prevState => ({
-        todoData: prevState.todoData.map(obj =>
-          obj.id === idNum
-            ? Object.assign(obj, {
-                inEditMode: false,
-                title: title,
-                due: due,
-                description: description
-              })
-            : obj
-        )
-      }),
-      this.updateLocalStorage
-    )
+    let currentTodoData = this.state.todoData
+    currentTodoData[idNum] = {
+      id: idNum,
+      title: title ? title : '',
+      due: due ? due : '2001-01-01',
+      description: description ? description : '',
+      inEditMode: false
+    }
+    this.setState({ todoData: currentTodoData }, this.updateLocalStorage)
+    console.log(currentTodoData)
   }
 
   handleDelete (idNum) {
-    function matchesIdNum (element) {
-      return element.id == idNum
-    }
-
-    let todoIndex = todoData.findIndex(matchesIdNum)
-    todoData.splice(todoIndex, 1)
-    this.setState({ todoData })
+    const currentTodoData = this.state.todoData
+    currentTodoData[idNum] = null
+    this.setState({ todoData: currentTodoData }, this.updateLocalStorage)
   }
 
   handleNewTodo () {
-    console.log('It works')
+    console.log(this.state.todoData)
     const newID = this.state.todoData.length
     const emptyTodo = {
       id: newID,
@@ -104,10 +93,9 @@ class Main extends Component {
       due: '',
       inEditMode: true
     }
-    todoData.push(emptyTodo)
-    this.setState(prevState => ({
-      todoData: todoData
-    }))
+    let currentTodoData = this.state.todoData
+    currentTodoData.push(emptyTodo)
+    this.setState({ todoData: currentTodoData })
   }
 
   render () {
@@ -115,35 +103,37 @@ class Main extends Component {
       <div className='container d-flex flex-column align-items-center'>
         <Navbar handleClick={this.handleNewTodo} />
         <div className='row d-flex justify-content-around'>
-          {this.state.todoData.map(item => {
-            if (item.inEditMode) {
-              return (
-                <TodoCardEdit
-                  key={item.id}
-                  inEditMode={item.inEditMode}
-                  id={item.id}
-                  title={item.title}
-                  due={item.due}
-                  description={item.description}
-                  handleSave={this.handleSave}
-                  handleDelete={this.handleDelete}
-                />
-              )
-            } else {
-              return (
-                <TodoCard
-                  key={item.id}
-                  inEditMode={item.inEditMode}
-                  id={item.id}
-                  title={item.title}
-                  due={item.due}
-                  description={item.description}
-                  handleEdit={this.handleEdit}
-                  handleDelete={this.handleDelete}
-                />
-              )
-            }
-          })}
+          {this.state.todoData
+            .filter(todo => todo != null)
+            .map(item => {
+              if (item.inEditMode) {
+                return (
+                  <TodoCardEdit
+                    key={item.id}
+                    inEditMode={item.inEditMode}
+                    id={item.id}
+                    title={item.title}
+                    due={item.due}
+                    description={item.description}
+                    handleSave={this.handleSave}
+                    handleDelete={this.handleDelete}
+                  />
+                )
+              } else {
+                return (
+                  <TodoCard
+                    key={item.id}
+                    inEditMode={item.inEditMode}
+                    id={item.id}
+                    title={item.title}
+                    due={item.due}
+                    description={item.description}
+                    handleEdit={this.handleEdit}
+                    handleDelete={this.handleDelete}
+                  />
+                )
+              }
+            })}
         </div>
       </div>
     )
