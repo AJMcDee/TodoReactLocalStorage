@@ -5,8 +5,24 @@ class TodoCard extends React.Component {
     super(props);
   }
   render() {
+
+    const determineUrgencyClass = (todo) => {
+      switch (this.props.urgency) {
+        case "urgent":
+          return "border-danger"
+        case "important":
+          return "border-primary"
+        case "basic":
+          return "border-secondary"
+        case "whenever":
+          return "border-success"
+      }
+    }
+
+    const urgencyClass = determineUrgencyClass(this)
+    const cardClasses = `card col-md-3 m-1 border ${urgencyClass}`
     return (
-      <div className="card col-md-3 m-1" id={this.props.id}>
+      <div className={cardClasses} id={this.props.id}>
         <div className="card-body">
           <h5 className="card-title">{this.props.title}</h5>
           <h6 className="card-subtitle mb-2 text-muted">{this.props.due}</h6>

@@ -35,8 +35,8 @@ let todoDataArray = [
   null
 ]
 
-localStorage.clear
-localStorage.setItem('todoDataString', JSON.stringify(todoDataArray))
+// localStorage.clear
+// localStorage.setItem('todoDataString', JSON.stringify(todoDataArray))
 
 console.log(localStorage.getItem('todoDataString'))
 
@@ -64,14 +64,15 @@ class Main extends Component {
     this.setState({ todoData: currentTodoData })
   }
 
-  handleSave (idNum, title, due, description) {
+  handleSave (idNum, title, due, description, urgency) {
     let currentTodoData = this.state.todoData
     currentTodoData[idNum] = {
       id: idNum,
       title: title ? title : '',
       due: due ? due : '2001-01-01',
       description: description ? description : '',
-      inEditMode: false
+      inEditMode: false,
+      urgency: urgency,
     }
     this.setState({ todoData: currentTodoData }, this.updateLocalStorage)
     console.log(currentTodoData)
@@ -91,7 +92,8 @@ class Main extends Component {
       title: '',
       description: '',
       due: '',
-      inEditMode: true
+      inEditMode: true,
+      urgency: 'basic',
     }
     let currentTodoData = this.state.todoData
     currentTodoData.push(emptyTodo)
@@ -117,6 +119,7 @@ class Main extends Component {
                     description={item.description}
                     handleSave={this.handleSave}
                     handleDelete={this.handleDelete}
+                    urgency={item.urgency}
                   />
                 )
               } else {
@@ -130,6 +133,7 @@ class Main extends Component {
                     description={item.description}
                     handleEdit={this.handleEdit}
                     handleDelete={this.handleDelete}
+                    urgency={item.urgency}
                   />
                 )
               }
